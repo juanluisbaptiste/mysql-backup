@@ -155,6 +155,9 @@ if [[ -n "$DB_RESTORE_TARGET" ]]; then
     for i in $(ls /scripts.d/post-restore/*.sh); do
       if [ -x $i ]; then
         DB_RESTORE_TARGET=${DB_RESTORE_TARGET} DB_DUMP_DEBUG=${DB_DUMP_DEBUG} $i
+        if [ $? -gt 0 ]; then
+            echo "post-restore: script $i failed with exit code: $?" && exit 1
+        fi
       fi
     done
   fi
