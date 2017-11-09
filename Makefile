@@ -1,7 +1,7 @@
 .PHONY: build push test
 
 TAG ?= $(shell git log -n 1 --pretty=format:"%H")
-IMAGE ?= deitch/mysql-backup
+IMAGE ?= juanluisbaptiste/mysql-backup
 TARGET ?= $(IMAGE):$(TAG)
 
 
