@@ -163,7 +163,7 @@ You can think of this as a sort of basic _plugin system_. Look at the source of 
 
 To include any other resource in the backup target we need to use the pre/post processing feature. On [scripts.d.examples/post-backup](./scripts.d.examples/post-backup) there are some (still few) example scripts for some of the pre/post options, one of those can be used to [add other files](scripts.d.examples/post-backup/backup_wordpress_root.sh) to the final backup file. The current example is hardcoded to backup a WordPress installation, but it will be improved to be more generic.
 
-The backup script must be placed in the _post-backup_ directory, and what basically does is, first creates a tarball with the contents of _/var/www/html_ (for now), then creates a second tarball containing the sql backup file and the new tarball with the WordPress files,  with the name `wordpress-YYYY-mm-dd-H_M-full.tar.gz` (same timestamp format explanation than for the sql backup), and leaves it on `DB_DUMP_TARGET`.
+The backup script must be placed in the _/scripts.d/post-backup_ directory, and what basically does is, first creates a tarball with the contents of _/var/www/html_ (for now), then creates a second tarball containing the sql backup file and the new tarball with the WordPress files,  with the name `wordpress-YYYY-mm-dd-H_M-full.tar.gz` (same timestamp format explanation than for the sql backup), and leaves it on `DB_DUMP_TARGET`.
 
 ## Restore
 ### Backup Restore
@@ -214,12 +214,15 @@ The current example is generic, it can be used to restore any backup file compos
   * The sql backup file as created by mysql-backup (meaning it needs to start with the name db_backup*, as created by default).
   * Any other tarball that will be uncompressed on the container's root directory.
 
-This restore script must be placed in the _pre-restore_ directory so it can uncompress the full backup tarball before the restore process can continue. It will also uncompress any other tarball included and will output back the name of the sql backup file to the main script so database restore can continue as usual.
+This restore script must be placed in the _/scripts.d/pre-restore_ directory so it can uncompress the full backup tarball before the restore process can continue. It will also uncompress any other tarball included and will output back the name of the sql backup file to the main script so database restore can continue as usual.
 
 ### Automated Build
 This gituhub repo is the source for the mysql-backup image. The actual image is stored on the docker hub at `juanluisbaptiste/mysql-backup`, and is triggered with each commit to the source by automated build via Webhooks.
 
 ## License
 Released under the MIT License.
-Copyright Juan Luis Baptiste https://github.com/juanluisbaptiste
-          Avi Deitcher https://github.com/deitch
+
+## Copyright
+  * Juan Luis Baptiste https://github.com/juanluisbaptiste
+
+  * Avi Deitcher https://github.com/deitch
