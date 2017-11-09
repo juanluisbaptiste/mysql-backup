@@ -8,9 +8,11 @@ RUN apk add --update mysql-client bash python3 samba-client && \
     touch /etc/samba/smb.conf && \
     pip3 install awscli
 
-# install the entrypoint
+# Copy the entrypoint
 COPY functions.sh /
 COPY entrypoint /entrypoint
+# Copy example scripts
+COPY scripts.d.examples /
 
 # start
 ENTRYPOINT ["/entrypoint"]
