@@ -19,6 +19,8 @@ USER appuser
 # install the entrypoint
 COPY functions.sh /
 COPY entrypoint /entrypoint
+# Copy example scripts
+COPY scripts.d.examples /
 
 # start
 ENTRYPOINT ["/entrypoint"]
