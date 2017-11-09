@@ -20,7 +20,7 @@ USER appuser
 COPY functions.sh /
 COPY entrypoint /entrypoint
 # Copy example scripts
-COPY scripts.d.examples /
+COPY scripts.d.examples /scripts.d.examples
 
 # start
 ENTRYPOINT ["/entrypoint"]
