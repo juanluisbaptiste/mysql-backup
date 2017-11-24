@@ -31,6 +31,7 @@ then
     if [ "${i/db_backup}" != ${i} ]; then
       >&2 echo "Found SQL dump tarball: ${i}"
       sql_dump=${i}
+      mv ${sql_dump} ${backups_dir}/
     else
       >&2 echo "Uncompressing tarball: ${i}"
       tar zxf ${i} -C /
