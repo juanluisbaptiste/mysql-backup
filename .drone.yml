@@ -7,6 +7,11 @@ notify:
     port: $$SMTP_PORT
     username: $$SMTP_USERNAME
     password: $$SMTP_PASSWORD
+  downstream:
+    server: $$DOWNSTREAM_DRONE_SERVER
+    repositories:
+      - jbaptiste_cs/ctecsas-backup
+
 publish:
   docker:
     username: $$DOCKER_USER
@@ -16,7 +21,6 @@ publish:
     tag:
       - latest
     file: Dockerfile
-    context: 
+    context:
     environment:
       - DOCKER_LAUNCH_DEBUG=true
-
