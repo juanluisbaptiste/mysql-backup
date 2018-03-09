@@ -287,6 +287,12 @@ fi
 
 You can think of this as a sort of basic plugin system. Look at the source of the [entrypoint](https://github.com/databack/mysql-backup/blob/master/entrypoint) script for other variables that can be used.
 
+### Example: Backing up a WordPress site
+
+To include any other resource in the backup target we need to use the pre/post processing feature. On [scripts.d.examples/post-backup](./scripts.d.examples/post-backup) there are some (still few) example scripts for some of the pre/post options, one of those can be used to [add other files](scripts.d.examples/post-backup/backup_wordpress_root.sh) to the final backup file. The default path to backup is _/var/www/html/wp-content_ but it can be changed with the *WWW_ROOT* environment variable.
+
+The backup script must be placed in the _/scripts.d/post-backup_ directory, and what basically does is, first creates a tarball with the contents of _/var/www/html_ (for now), then creates a second tarball containing the sql backup file and the new tarball with the WordPress files,  with the name `wordpress-YYYY-mm-dd-H_M-full.tar.gz` (same timestamp format explanation than for the sql backup), and leaves it on `DB_DUMP_TARGET`.
+
 ### Encrypting the Backup
 
 Post-processing also give you options to encrypt the backup using openssl. The openssl binary is available
@@ -352,7 +358,7 @@ For example, a script to restore a _WordPress_ install, coud be placed on
 `pre-restore`, it would uncompress a tarball containing
 the database backup and a second tarball with the contents of /var/www/html, uncompress it, and echo the name of the sql backup file.
 
-The following variables are available for restore scripts:
+The following variables are available for restore scripts: 	
 
   * `RESTORE_TARGET`: full path in the container to the restore file.
   * `DB_DUMP_DEBUG`: To enable debug mode in post-backup scripts.
