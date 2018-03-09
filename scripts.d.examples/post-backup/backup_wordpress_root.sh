@@ -1,5 +1,7 @@
 #!/bin/bash
 # Backup a WordPress site (db + files).
+WWW_ROOT=${WWW_ROOT:-"/var/www/html/wp-content"}
+
 if [[ -n "$DB_DUMP_DEBUG" ]]; then
   set -x
 fi
@@ -17,7 +19,7 @@ then
 
   echo "Backing up WordPress directory"
   cd /${tmp_dir}
-  tar zcf ${wordpress_files} -C ${tmp_dir} /var/www/html/wp-content
+  tar zcf ${wordpress_files} -C ${tmp_dir} ${WWW_ROOT}
   [[ $? -gt 0 ]] && echo "Could not compress WordPress directory!" && exit 1
 
   echo "Copying SQL dump file"
