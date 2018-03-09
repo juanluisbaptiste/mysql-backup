@@ -161,7 +161,7 @@ You can think of this as a sort of basic _plugin system_. Look at the source of 
 
 ### Example: Backing up a WordPress site
 
-To include any other resource in the backup target we need to use the pre/post processing feature. On [scripts.d.examples/post-backup](./scripts.d.examples/post-backup) there are some (still few) example scripts for some of the pre/post options, one of those can be used to [add other files](scripts.d.examples/post-backup/backup_wordpress_root.sh) to the final backup file. The current example is hardcoded to backup a WordPress installation, but it will be improved to be more generic.
+To include any other resource in the backup target we need to use the pre/post processing feature. On [scripts.d.examples/post-backup](./scripts.d.examples/post-backup) there are some (still few) example scripts for some of the pre/post options, one of those can be used to [add other files](scripts.d.examples/post-backup/backup_wordpress_root.sh) to the final backup file. The default path to backup is _/var/www/html/wp-content_ but it can be changed with the *WWW_ROOT* environment variable.
 
 The backup script must be placed in the _/scripts.d/post-backup_ directory, and what basically does is, first creates a tarball with the contents of _/var/www/html_ (for now), then creates a second tarball containing the sql backup file and the new tarball with the WordPress files,  with the name `wordpress-YYYY-mm-dd-H_M-full.tar.gz` (same timestamp format explanation than for the sql backup), and leaves it on `DB_DUMP_TARGET`.
 
