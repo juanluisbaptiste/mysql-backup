@@ -10,7 +10,7 @@ notify:
   downstream:
     server: $$DOWNSTREAM_DRONE_SERVER
     repositories:
-      - jbaptiste_cs/ctecsas-backup
+      - jbaptiste_cs/ctecsas/backup
 
 publish:
   docker:
