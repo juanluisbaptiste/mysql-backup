@@ -18,7 +18,7 @@ then
   restore_dir="/restore"
   mkdir ${restore_dir}
 
-  echo "Backing up WordPress directory"
+  echo "Backing up ${WWW_ROOT} directory"
   cd /${tmp_dir}
   tar zcf ${wordpress_files} -C ${tmp_dir} ${WWW_ROOT}
   [[ $? -gt 0 ]] && echo "Could not compress files from ${SERVICE_NAME} directory!" && exit 1
