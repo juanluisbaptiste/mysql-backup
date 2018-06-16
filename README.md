@@ -188,22 +188,6 @@ Examples:
 2. Restore from an SMB file: `docker run -e DB_USER=user123 -e DB_PASS=pass123 -e DB_RESTORE_TARGET=smb://smbserver/share1/backup/db_backup_201509271627.sql.gz deitch/mysql-backup`
 3. Restore from an S3 file: `docker run -e AWS_ACCESS_KEY_ID=awskeyid -e AWS_SECRET_ACCESS_KEY=secret -e AWS_DEFAULT_REGION=eu-central-1 -e DB_USER=user123 -e DB_PASS=pass123 -e DB_RESTORE_TARGET=s3://bucket/path/db_backup_201509271627.sql.gz deitch/mysql-backup`
 
-### Using docker (or rancher) secrets
-Environment variables used in this image can be passed in files as well. This is useful when you are using docker (or rancher) secrets for storing sensitive information.
-
-As you can set environment variable with `-e ENVIRONMENT_VARIABLE=value`, you can also use `-e ENVIRONMENT_VARIABLE_FILE=/path/to/file`. Contents of that file will be assigned to the environment variable.
-
-**Example:**
-
-```bash
-docker run -d \
-  -e DB_HOST_FILE=/run/secrets/DB_HOST \
-  -e DB_USER_FILE=/run/secrets/DB_USER \
-  -e DB_PASS_FILE=/run/secrets/DB_PASS \
-  -v /local/file/path:/db \
-  deitch/mysql-backup
-```
-
 ### Restore pre and post processing
 
 As with backups pre and post processing, you can do the same with restore operations.
@@ -233,6 +217,22 @@ The current example is generic, it can be used to restore any backup file compos
   * Any other tarball that will be uncompressed on the container's root directory.
 
 This restore script must be placed in the _/scripts.d/pre-restore_ directory so it can uncompress the full backup tarball before the restore process can continue. It will also uncompress any other tarball included and will output back the name of the sql backup file to the main script so database restore can continue as usual.
+
+### Using docker (or rancher) secrets
+Environment variables used in this image can be passed in files as well. This is useful when you are using docker (or rancher) secrets for storing sensitive information.
+
+As you can set environment variable with `-e ENVIRONMENT_VARIABLE=value`, you can also use `-e ENVIRONMENT_VARIABLE_FILE=/path/to/file`. Contents of that file will be assigned to the environment variable.
+
+**Example:**
+
+```bash
+docker run -d \
+  -e DB_HOST_FILE=/run/secrets/DB_HOST \
+  -e DB_USER_FILE=/run/secrets/DB_USER \
+  -e DB_PASS_FILE=/run/secrets/DB_PASS \
+  -v /local/file/path:/db \
+  deitch/mysql-backup
+```
 
 ### Automated Build
 This github repo is the source for the mysql-backup image. The actual image is stored on the docker hub at `deitch/mysql-backup`, and is triggered with each commit to the source by automated build via Webhooks.
