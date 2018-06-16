@@ -38,6 +38,7 @@ then
 
   #cleanup
   rm -fr ${tmp_dir}
+  rm -fr ${DUMPFILE}
 else
   echo "ERROR: Backup file ${DUMPFILE} does not exist!"
 fi
