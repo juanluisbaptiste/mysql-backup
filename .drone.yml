@@ -17,7 +17,7 @@ publish:
     username: $$DOCKER_USER
     password: $$DOCKER_PASSWORD
     email: $$DOCKER_EMAIL
-    repo: $$DOCKER_USER/otrs
+    repo: $$DOCKER_USER/mysql-backup
     tag:
       - latest
     file: Dockerfile
