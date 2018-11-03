@@ -195,6 +195,9 @@ else
     # make the dump
     mysqldump -h $DB_SERVER -P $DB_PORT $DBUSER $DBPASS $DB_LIST | gzip > ${TMPDIR}/${TARGET}
 
+    # Check that dump worked
+    [ $? -gt 0 ] &&  echo "Database dump failed, aborting..." && exit 1
+
     # Execute additional scripts for post porcessing. For example, create a new
     # backup file containing this db backup and a second tar file with the
     # contents of a wordpress install.
