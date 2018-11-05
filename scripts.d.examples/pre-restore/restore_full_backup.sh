@@ -4,8 +4,13 @@ if [[ -n "$DB_DUMP_DEBUG" ]]; then
   set -x
 fi
 
-if [ -n ${RESTORE_TARGET} ];
+if [ -n "${RESTORE_TARGET}" ];
 then
+  mysqladmin ping -h $DB_SERVER -P $DB_PORT -u$DB_USER -p$DB_PASS > /dev/null 2>&1
+  if [ $? -gt 0 ]; then
+    >&2 echo "ERROR: Cannot connect to db server." && exit 1
+  fi
+
   backups_dir=$(dirname ${RESTORE_TARGET})
   backup_filename=$(basename ${RESTORE_TARGET})
   tmp_dir=$(mktemp -d)
@@ -43,4 +48,4 @@ else
 fi
 
 #Echo the name of the sql dump file so the backup can continue as usual.
-echo ${backups_dir}/${sql_dump}
+echo "${backups_dir}/${sql_dump}"
