@@ -2,9 +2,14 @@
 # Backup a WordPress site (db + files).
 WWW_ROOT=${WWW_ROOT:-"/var/www/html/wp-content"}
 SERVICE_NAME=${SERVICE_NAME:-"wordpress"}
+EXCLUDE_FILE=${EXCLUDE_FILE:-"${WWW_ROOT}/wp-content/.mysql-backup_excludes"}
 
 if [[ -n "$DB_DUMP_DEBUG" ]]; then
   set -x
+fi
+
+if [ -e ${EXCLUDE_FILE} ]; then
+  exclude_files=" -X ${EXCLUDE_FILE}"
 fi
 
 NOW=$(date +"%Y-%m-%d-%H_%M")
@@ -20,7 +25,7 @@ then
 
   echo "Backing up ${WWW_ROOT} directory"
   cd /${tmp_dir}
-  tar zcf ${wordpress_files} -C ${tmp_dir} ${WWW_ROOT}
+  tar zcf ${wordpress_files} -C ${tmp_dir} ${WWW_ROOT} ${exclude_files}
   [[ $? -gt 0 ]] && echo "Could not compress files from ${SERVICE_NAME} directory!" && exit 1
 
   echo "Copying SQL dump file"
