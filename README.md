@@ -303,7 +303,8 @@ __You should consider the [use of `--env-file=`](https://docs.docker.com/engine/
 * `DB_RESTORE_TARGET`: path to the actual restore file, which should be a compressed dump file. The target can be an absolute path, which should be volume mounted, an smb or S3 URL, similar to the target.
 * `DB_DUMP_DEBUG`: if `true`, dump copious outputs to the container logs while restoring.
 * To use the S3 driver `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` will need to be defined.
-
+* `EXCLUDE_FILE`: A file within the wp-content directory that contains the list of files/patterns to exclude. by default it will look for `.mysql-backup_excludes`
+* `WWW_ROOT`: Path to the application web root to backup.
 
 Examples:
 
