@@ -213,7 +213,7 @@ The following variables are available for restore scripts:
 
   * `RESTORE_TARGET`: full path in the container to the restore file.
   * `DB_DUMP_DEBUG`: To enable debug mode in post-backup scripts.
-  * `WWW_ROOT`: Path to the application web root to backup.
+  * `WWW_ROOT`: Path to the restore location.
   * `SERVICE_NAME`: Prefix to put to the final backup file (default: wordpress).
 
 Also you can create a custom image with the scripts you need, or add the same host volumes for `pre-restore` and `post-restore` directories as described for post-backup processing.

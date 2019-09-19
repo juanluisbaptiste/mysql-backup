@@ -79,7 +79,7 @@ if [[ -n "$DB_RESTORE_TARGET" ]]; then
   # uncompress a tarball that contains the tarballs for the sql dump and a
   # wordpress installation.
   if [ -d /scripts.d/pre-restore/ ]; then
-    for i in $(ls /scripts.d/pre-restore/*.sh); do
+    for i in $(ls /scripts.d/pre-restore/*.sh|sort -n); do
       if [ -x $i ]; then
         #The script must output the name of the sql dump so processing
         #continues as usual
