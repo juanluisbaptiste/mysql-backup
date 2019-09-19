@@ -12,7 +12,7 @@ if [ -n "${RESTORE_TARGET}" ];
 then
 
   # $mysqladmin ping  > /dev/null 2>&1
-  mysqladmin ping -h ${DB_SERVER} -P ${DB_PORT} -uroot -p${MYSQL_ROOT_PASSWORD} > /dev/null 2>&1
+  ${mysqladmin} ping > /dev/null 2>&1
   if [ $? -gt 0 ]; then
     >&2 echo "ERROR: Cannot connect to db server." && exit 1
   fi
