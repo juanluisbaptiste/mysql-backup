@@ -13,6 +13,7 @@ file_env "DB_PORT"
 file_env "DB_USER"
 file_env "DB_PASS"
 file_env "DB_NAMES"
+file_env "MYSQL_ROOT_PASSWORD"
 
 file_env "DB_DUMP_FREQ" "1440"
 file_env "DB_DUMP_BEGIN" "+0"
@@ -105,7 +106,8 @@ if [[ -n "$DB_RESTORE_TARGET" ]]; then
       if [ -x $i ]; then
         #The script must output the name of the sql dump so processing
         #continues as usual
-        DB_RESTORE_TARGET=$(RESTORE_TARGET=${DB_RESTORE_TARGET} DB_DUMP_DEBUG=${DB_DUMP_DEBUG} $i)
+        # echo "--DB_RESTORE_TARGET=$DB_RESTORE_TARGET--"
+        DB_RESTORE_TARGET="$(RESTORE_TARGET=${DB_RESTORE_TARGET} DB_DUMP_DEBUG=${DB_DUMP_DEBUG} MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} DB_NAMES=${DB_NAMES} $i)"
         if [ $? -gt 0 ]; then
             echo "pre-restore: script $i failed with exit code: $?" && exit 1
         fi
