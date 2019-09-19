@@ -4,12 +4,32 @@ if [[ -n "$DB_DUMP_DEBUG" ]]; then
   set -x
 fi
 
+mysql_params=" -h ${DB_SERVER} -P ${DB_PORT} -uroot -p${MYSQL_ROOT_PASSWORD} "
+mysqlcmd="mysql ${mysql_params}"
+mysqladmin="mysqladmin ${mysql_params}"
+
 if [ -n "${RESTORE_TARGET}" ];
 then
-  mysqladmin ping -h $DB_SERVER -P $DB_PORT -u$DB_USER -p$DB_PASS > /dev/null 2>&1
+
+  # $mysqladmin ping  > /dev/null 2>&1
+  mysqladmin ping -h ${DB_SERVER} -P ${DB_PORT} -uroot -p${MYSQL_ROOT_PASSWORD} > /dev/null 2>&1
   if [ $? -gt 0 ]; then
     >&2 echo "ERROR: Cannot connect to db server." && exit 1
   fi
+
+  >&2 echo -e "Creating application database..."
+  ${mysqlcmd}  -e "CREATE DATABASE IF NOT EXISTS ${DB_NAMES};"
+  [ $? -gt 0 ] && echo -e "Couldn't create application database !!\n" && exit 1
+  ${mysqlcmd}  -e " GRANT ALL ON ${DB_NAMES}.* to '${DB_USER}'@'%' identified by '${DB_PASS}'";
+
+  [ $? -gt 0 ] && echo -e "Couldn't create database user !!\n" && exit 1
+
+  >&2 echo -e "User created.\n"
+
+  # mysqladmin ping -h $DB_SERVER -P $DB_PORT -u$DB_USER -p$DB_PASS > /dev/null 2>&1
+  # if [ $? -gt 0 ]; then
+  #   >&2 echo "ERROR: Cannot connect to db server." && exit 1
+  # fi
 
   backups_dir=$(dirname ${RESTORE_TARGET})
   backup_filename=$(basename ${RESTORE_TARGET})
