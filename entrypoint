@@ -13,6 +13,7 @@ file_env "DB_PORT"
 file_env "DB_USER"
 file_env "DB_PASS"
 file_env "DB_NAMES"
+file_env "NO_CREATE_DATABASES" "false"
 file_env "MYSQL_ROOT_PASSWORD"
 
 file_env "DB_DUMP_FREQ" "1440"
@@ -188,8 +189,10 @@ else
     # what is the name of our target?
     now=$(date -u +"%Y%m%d%H%M%S")
     TARGET=db_backup_${now}.gz
-    if [[ -n "$DB_NAMES" ]]; then
+    if [[ -n "$DB_NAMES" ]] && [[ "$NO_CREATE_DATABASES" = "false" ]]; then
       DB_LIST="--databases $DB_NAMES"
+    elif [[ "$NO_CREATE_DATABASES" = "true" ]]; then
+      DB_LIST="$DB_NAMES"
     else
       DB_LIST="-A"
     fi
